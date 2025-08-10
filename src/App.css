@@ -1,38 +1,348 @@
-.App {
+
+:root {
+  --bg1: #0f1724;
+  --panel: #0b1220;
+  --muted: #9aa7b2;
+  --accent: #ffb347;
+  --glass: rgba(255, 255, 255, 0.04);
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #071224 0%, #0b1b2a 60%);
+  font-family: Inter, 'Segoe UI', Roboto, Arial, sans-serif;
+  color: #e6eef6;
+}
+
+.app-wrap {
+  max-width: 1200px;
+  margin: 18px auto;
+  padding: 18px;
+}
+
+/* Top bar */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.controls select {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+  background: var(--glass);
+  color: #fff;
+}
+
+.reset-btn {
+  background: #2b3642;
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Layout */
+.main-area {
+  display: flex;
+  gap: 20px;
+}
+
+.theatre-area {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.sidebar {
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Screen */
+.screen {
+  width: 100%;
+  margin: 6px auto 14px auto;
+  height: 52px;
+  background: linear-gradient(90deg, #ffd05a, #ffb347);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #111;
+  letter-spacing: 1px;
+  box-shadow: 0 6px 20px rgba(255,179,71,0.14);
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+}
+
+.legend-swatch {
+  width: 20px;
+  height: 14px;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.selected-swatch {
+  background: linear-gradient(90deg, #8AF78A, #3BD66A);
+}
+
+.booked-swatch {
+  background: linear-gradient(90deg, #ff6b6b, #ff3b3b);
+}
+
+/* Seating grid */
+.seating-grid-wrap {
+  display: flex;
+  gap: 12px;
+  align-items: start;
+}
+
+.row-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 6px 0;
+}
+
+.row-label {
+  width: 30px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.seating-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  padding: 6px;
+  overflow: auto;
+  max-height: 560px;
+}
+
+.seat-row {
+  display: grid;
+  grid-template-columns: repeat(14, 48px);
+  gap: 8px;
+  justify-content: center;
+}
+
+.seat {
+  width: 48px;
+  height: 42px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #0b1220;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.55);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.seat:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 30px rgba(2,6,23,0.7);
+}
+
+.seat .seat-label {
+  font-size: 12px;
+}
+
+.seat.selected {
+  background: linear-gradient(90deg, #8AF78A, #3BD66A);
+  color: #04210a;
+}
+
+.seat.booked {
+  background: linear-gradient(90deg, #ff6b6b, #ff3b3b);
+  color: #fff;
+  cursor: not-allowed;
+  opacity: 0.95;
+  box-shadow: none;
+}
+
+.seat:not(.booked):not(.selected) {
+  color: #111;
+}
+
+/* Showtime section (always visible) */
+.showtimes {
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.showtime-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.showtime-btn:hover {
+  background: var(--accent);
+  color: #111;
+}
+
+/* Hover info */
+.hover-info {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Sidebar cards */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.03);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.summary-card {
+  padding: 14px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.summary-card h3 {
+  margin: 0 0 8px 0;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  color: #fff;
+}
+
+.summary-row.grand {
+  font-size: 18px;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+.food-control {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.food-item {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.qty-controls button {
+  width: 36px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
 }
+
+.qty {
+  min-width: 36px;
+  text-align: center;
+}
+
+/* Actions */
+.actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.confirm-btn {
+  flex: 1;
+  background: linear-gradient(90deg, #ffb347, #ff8a47);
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 800;
+  color: #111;
+  cursor: pointer;
+}
+
+.confirm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Booked list */
+.booked-list {
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.booked-items {
+  color: var(--muted);
+  min-height: 36px;
+}
+
+
